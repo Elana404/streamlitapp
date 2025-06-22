@@ -104,15 +104,19 @@ title = "BINOMIAL TREE MODEL FOR THE DERIVATIVE PORTION OF CONVERTIBLE BOND"
 
 st.set_page_config(page_title=title, layout="wide")
 
-st.markdown(
-f"""
-<h1 style="text-align: center; border-bottom: 1px solid black; font-weight: bold; font-size: 36px; margin-bottom: 1rem;">{title}</h1>
-""", unsafe_allow_html=True)
+#st.markdown(
+#f"""
+#<h1 style="text-align: center; border-bottom: 1px solid black; font-weight: bold; font-size: 36px; margin-bottom: 1rem;">{title}</h1>
+#""", unsafe_allow_html=True)
 
-st.markdown(
-f"""
-<h2 style="text-align: left; font-size: 25px; font-weight: bold; margin-bottom: 0.5rem;">Result & Analysis</h2>
-""", unsafe_allow_html=True)
+st.markdown("# 📈Binomial Tree Model for the Derivative Portion of Convertible Bond")
+st.write("Results and analysis will appear here after calculation.")
+st.markdown("## 📈Results & Analysis")
+
+#st.markdown(
+#f"""
+#<h2 style="text-align: left; font-size: 25px; font-weight: bold; margin-bottom: 0.5rem;">Result & Analysis</h2>
+#""", unsafe_allow_html=True)
 
 with st.sidebar:
     option_type = st.selectbox("Option type", ["call", "put"])
@@ -155,7 +159,9 @@ with st.expander("**Input Values**", True):
 if button:
     # Calculate option price
     option_tree, price = binomial_tree(S, K, T, r, q, sigma, N, option_type, option_name, ExerciseFactor, EffectiveDate)
-    st.success(f"**{option_name}-style {option_type} option price: {price:.5f}**")
+    #st.success(f"**{option_name}-style {option_type} option price: {price:.5f}**")
+    st.markdown("**Calculation Outcome**")
+    st.metric(label="Per Option Price:", value=f"{price:.5f}")
     with st.expander("**Binomial Tree**", True):
         fig = visualize_binomial_tree(S, K, T, r, sigma, n, steps_to_show=steps)
         st.pyplot(fig, use_container_width=True)

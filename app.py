@@ -160,7 +160,7 @@ if button:
     # Calculate option price
     option_tree, price = binomial_tree(S, K, T, r, q, sigma, N, option_type, option_name, ExerciseFactor, EffectiveDate)
     #st.success(f"**{option_name}-style {option_type} option price: {price:.5f}**")
-    st.markdown("**Calculation Outcome**")
+    st.markdown("### Calculation Outcome")
     st.metric(label="Per Option Price:", value=f"{price:.5f}")
     with st.expander("**Binomial Tree**", True):
         fig = visualize_binomial_tree(S, K, T, r, sigma, n, steps_to_show=steps)

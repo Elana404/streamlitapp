@@ -106,43 +106,42 @@ st.set_page_config(page_title=title, layout="wide")
 
 st.markdown(
 f"""
-<h1 style="text-align: center; border-bottom: 1px solid black; font-weight: bold; font-size: 30px; margin-bottom: 1rem;">{title}</h1>
+<h1 style="text-align: center; border-bottom: 1px solid black; font-weight: bold; font-size: 36px; margin-bottom: 1rem;">{title}</h1>
 """, unsafe_allow_html=True)
 
 st.markdown(
 f"""
-<h2 style="text-align: left; font-size: 22px; font-weight: bold; margin-bottom: 0.5rem;">Result & Analysis</h2>
+<h2 style="text-align: left; font-size: 25px; font-weight: bold; margin-bottom: 0.5rem;">Result & Analysis</h2>
 """, unsafe_allow_html=True)
 
-with st.form("input"):
-    with st.sidebar:
-        option_type = st.selectbox("Option type", ["call", "put"])
-        option_name = st.selectbox("The name of the option", ["American", "European"]) # Option name
-        valuation_date = st.date_input("Valuation date", datetime.date(2012, 9, 30))
-        maturity_date = st.date_input("Maturity date", datetime.date(2013, 3, 30)) # Maturity date
-        T = (maturity_date-valuation_date).days/365.25 # In years
-        #st.write(f":red[({round(T, 1)} years expected life)]")
-        N = n = st.number_input('No. of steps', value=25, step=1, min_value=0) # Number of steps in the binomial tree
-        #st.write(f":red[({round((maturity_date-valuation_date).days/N)} days per period on average)]")
-        r = risk_free_rate = st.number_input("Risk free rate (%)", value=18.00, min_value=0.000, step=0.01)/100 # Risk-free rate
-        #st.write(f":red[(continuous rate = {round(math.log(1+r)*100, 3)}%)]")
-        sigma = volatility = st.number_input("Volatility (%)", value=68.07, min_value=0.00, step=0.01)/100 # Volatility
-        K = price1 = st.number_input("Initial exercise price per share", value=1.00, step=0.01, min_value=0.00) # Initial exercise price per share
-        S = price2 = st.number_input("Spot price per share", value=0.38, step=0.01, min_value=0.00) # Spot price per share
-        q = dividend_yield = st.number_input("Dividend yield (%)", value=0.00, min_value=0.00, step=0.01)/100 # Dividend yield
+with st.sidebar:
+    option_type = st.selectbox("Option type", ["call", "put"])
+    option_name = st.selectbox("The name of the option", ["American", "European"]) # Option name
+    valuation_date = st.date_input("Valuation date", datetime.date(2012, 9, 30))
+    maturity_date = st.date_input("Maturity date", datetime.date(2013, 3, 30)) # Maturity date
+    T = (maturity_date-valuation_date).days/365.25 # In years
+    #st.write(f":red[({round(T, 1)} years expected life)]")
+    N = n = st.number_input('No. of steps', value=25, step=1, min_value=0) # Number of steps in the binomial tree
+    #st.write(f":red[({round((maturity_date-valuation_date).days/N)} days per period on average)]")
+    r = risk_free_rate = st.number_input("Risk free rate (%)", value=18.00, min_value=0.000, step=0.01)/100 # Risk-free rate
+    #st.write(f":red[(continuous rate = {round(math.log(1+r)*100, 3)}%)]")
+    sigma = volatility = st.number_input("Volatility (%)", value=68.07, min_value=0.00, step=0.01)/100 # Volatility
+    K = price1 = st.number_input("Initial exercise price per share", value=1.00, step=0.01, min_value=0.00) # Initial exercise price per share
+    S = price2 = st.number_input("Spot price per share", value=0.38, step=0.01, min_value=0.00) # Spot price per share
+    q = dividend_yield = st.number_input("Dividend yield (%)", value=0.00, min_value=0.00, step=0.01)/100 # Dividend yield
         
-        ExerciseFactor = exercise_factor = st.number_input("Exercise factor", value=1.000, step=0.001, min_value=0.000) # Exercise price adjustment factor (e.g., 1.2 means a 20% increase)
-        exercise_date = st.date_input("Exercise factor effective date", datetime.date(2012, 9, 30)) # Time when the adjustment is triggered
+    ExerciseFactor = exercise_factor = st.number_input("Exercise factor", value=1.000, step=0.001, min_value=0.000) # Exercise price adjustment factor (e.g., 1.2 means a 20% increase)
+    exercise_date = st.date_input("Exercise factor effective date", datetime.date(2012, 9, 30)) # Time when the adjustment is triggered
         
-        #st.info("(assuming the holders will exercise at x% of exercise price. Empty to disable)")
+    #st.info("(assuming the holders will exercise at x% of exercise price. Empty to disable)")
         
-        EffectiveDate = (exercise_date-valuation_date).days
+    EffectiveDate = (exercise_date-valuation_date).days
 
-    dd1 = "S, K, T, r, q, sigma, N(years), OptionType(call/put), OptionName(American/European), ExerciseFactor, EffectiveDate".split(", ")
-    dd2 = [S, K, T, r, q, sigma, N, option_type, option_name, ExerciseFactor, EffectiveDate]
+dd1 = "S, K, T, r, q, sigma, N(years), OptionType(call/put), OptionName(American/European), ExerciseFactor, EffectiveDate".split(", ")
+dd2 = [S, K, T, r, q, sigma, N, option_type, option_name, ExerciseFactor, EffectiveDate]
 
-    with st.expander("**Input Values**", True):
-        st.write(pd.DataFrame({i:[j] for i, j in zip(dd1, dd2)}), hide_index=True, use_container_width=True)
+with st.expander("**Input Values**", True):
+    st.write(pd.DataFrame({i:[j] for i, j in zip(dd1, dd2)}), hide_index=True, use_container_width=True)
     
     if N<=5:
         x = N
@@ -151,7 +150,7 @@ with st.form("input"):
         
     steps = st.slider("Show steps", 0, N, value=x, step=1)
         
-    button = st.form_submit_button("Calculate", use_container_width=True, type="primary")
+    button = st.button("Calculate", use_container_width=True, type="primary")
 
 if button:
     # Calculate option price

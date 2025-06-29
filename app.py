@@ -168,7 +168,7 @@ else:
     dd2 = [option_type, option_name, valuation_date, maturity_date, N, r, sigma, K, S, q, factor]
 
 with st.expander("**Input Values**", True):
-    st.write(pd.DataFrame({i:[j] for i, j in zip(dd1, dd2)}), hide_index=True, use_container_width=True)
+    st.dataframe(pd.DataFrame({i:[j] for i, j in zip(dd1, dd2)}), hide_index=True, use_container_width=True)
     
     if N<=5:
         x = N

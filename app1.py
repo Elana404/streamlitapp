@@ -374,9 +374,9 @@ if calculate_button:
             st.session_state.results = None
 else:
     if mode == "Single Company/Lot Valuation":
-        st.info("Please set parameters in the sidebar and click 'Calculate All Lots' to start!")
-    else:
         st.info("Please set parameters in the sidebar and click 'Calculate' to start!")
+    else:
+        st.info("Please set parameters in the sidebar and click 'Calculate All Lots' to start!")
             
 # display results and charts
 if calculate_button and (st.session_state.results is not None):

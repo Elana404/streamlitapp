@@ -116,7 +116,7 @@ def visualize_binomial_tree(S, K, T, r, sigma, N, steps_to_show=5):
                 plt.plot([i, i+1], [price_tree[i, j], price_tree[i+1, j]], color="gray", lw=0.5)
             
             plt.plot(i, price_tree[i, j], 'bo', color="gray")
-            plt.text(i, price_tree[i, j], str(round(price_tree[i, j], 3)), ha="center", va="top", color="black")
+            plt.text(i, price_tree[i, j], str(round(price_tree[i, j], 3)), ha="center", va="top", color="red")
     
     plt.title(f"Binomial Tree")
     plt.xlabel("Time Steps")
@@ -159,7 +159,7 @@ with st.sidebar:
     S = price2 = st.number_input("Spot price per share", value=0.38, step=0.01, min_value=0.00) # Spot price per share
     q = dividend_yield = st.number_input("Dividend yield (%)", value=0.00, min_value=0.00, step=0.01)/100 # Dividend yield
     
-    factor = st.selectbox("Exercise factor", ["Yes", "No"])
+    factor = st.selectbox("Exercise factor", ["Yes", "No"], index=1)
     if factor == "Yes":
         ExerciseFactor = exercise_factor = st.number_input("Exercise factor (%)", value=100.00, step=0.01, min_value=0.00)/100 # Exercise price adjustment factor (e.g., 1.2 means a 20% increase)
         ExerciseDate = st.date_input("Exercise factor effective date", datetime.date(2012, 9, 30)) # Time when the adjustment is triggered

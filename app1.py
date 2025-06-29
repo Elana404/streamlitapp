@@ -295,7 +295,7 @@ if mode == "Batch Calculation from Table":
         df_input = pd.DataFrame(initial_data, index=index_labels)
 
         edited_df = st.data_editor(
-            df_input,
+            df_input.T,
             num_rows="dynamic",
             use_container_width=True,
             key="data_editor"

@@ -269,6 +269,12 @@ if mode == "Batch Calculation from Table":
         dd1 = ["Decimal Digits for Option Values", "Risk free rate (%)", "Volatility (%)", "Dividend yield (%)", "Shares outstanding", 
                "Consider dilution (Yes/No)"]
         dd2 = [decimal_digits, r, sigma, q, shares, dil]
+
+        for i, j in enumerate(dd2):
+            if j==True:
+                dd2[i] = "Yes"
+            elif j==False:
+                dd2[i] = "No"
         
         st.dataframe(pd.DataFrame({i:[j] for i, j in zip(dd1, dd2)}), hide_index=True, use_container_width=True)
         

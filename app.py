@@ -116,7 +116,7 @@ def visualize_binomial_tree(S, K, T, r, sigma, N, steps_to_show=5):
                 plt.plot([i, i+1], [price_tree[i, j], price_tree[i+1, j]], color="gray", lw=0.5)
             
             plt.plot(i, price_tree[i, j], 'bo', color="gray")
-            plt.text(i, price_tree[i, j], str(round(price_tree[i, j], 3)), ha="center", va="top", color="red")
+            plt.text(i, price_tree[i, j], str(round(price_tree[i, j], 3)), ha="center", va="top", color="black")
     
     plt.title(f"Binomial Tree")
     plt.xlabel("Time Steps")

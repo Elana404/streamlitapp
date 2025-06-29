@@ -299,7 +299,7 @@ if mode == "Batch Calculation from Table":
             num_rows="dynamic",
             use_container_width=True,
             key="data_editor"
-        )
+        ).T
     
         calculate_button = st.button("Calculate All Lots", use_container_width=True, type="primary")
 else:

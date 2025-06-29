@@ -129,19 +129,10 @@ title = "BINOMIAL TREE MODEL FOR THE DERIVATIVE PORTION OF CONVERTIBLE BOND"
 
 st.set_page_config(page_title=title, layout="wide")
 
-#st.markdown(
-#f"""
-#<h1 style="text-align: center; border-bottom: 1px solid black; font-weight: bold; font-size: 36px; margin-bottom: 1rem;">{title}</h1>
-#""", unsafe_allow_html=True)
-
-st.markdown("# 📈Binomial Tree Model for the Derivative Portion of Convertible Bond")
-st.write("Results and analysis will appear here after calculation.")
-st.markdown("## 📈Results & Analysis")
-
-#st.markdown(
-#f"""
-#<h2 style="text-align: left; font-size: 25px; font-weight: bold; margin-bottom: 0.5rem;">Result & Analysis</h2>
-#""", unsafe_allow_html=True)
+st.markdown(
+f"""
+<h1 style="text-align: center; border-bottom: 1px solid black; font-weight: bold; font-size: 36px; margin-bottom: 1rem;">{title}</h1>
+""", unsafe_allow_html=True)
 
 with st.sidebar:
     option_type = st.selectbox("Option type", ["call", "put"])
@@ -149,17 +140,14 @@ with st.sidebar:
     valuation_date = st.date_input("Valuation date", datetime.date(2012, 9, 30))
     maturity_date = st.date_input("Maturity date", datetime.date(2013, 3, 30)) # Maturity date
     T = (maturity_date-valuation_date).days/365.25 # In years
-    #st.write(f":red[({round(T, 1)} years expected life)]")
     N = n = st.number_input('No. of steps', value=25, step=1, min_value=0) # Number of steps in the binomial tree
-    #st.write(f":red[({round((maturity_date-valuation_date).days/N)} days per period on average)]")
     r = risk_free_rate = st.number_input("Risk free rate (%)", value=18.00, min_value=0.000, step=0.01)/100 # Risk-free rate
-    #st.write(f":red[(continuous rate = {round(math.log(1+r)*100, 3)}%)]")
     sigma = volatility = st.number_input("Volatility (%)", value=68.07, min_value=0.00, step=0.01)/100 # Volatility
     K = price1 = st.number_input("Initial exercise price per share", value=1.00, step=0.01, min_value=0.00) # Initial exercise price per share
     S = price2 = st.number_input("Spot price per share", value=0.38, step=0.01, min_value=0.00) # Spot price per share
     q = dividend_yield = st.number_input("Dividend yield (%)", value=0.00, min_value=0.00, step=0.01)/100 # Dividend yield
     
-    factor = st.selectbox("Exercise factor", ["Yes", "No"], index=1)
+    factor = st.selectbox("Consider exercise factor", ["Yes", "No"], index=1)
     if factor == "Yes":
         ExerciseFactor = exercise_factor = st.number_input("Exercise factor (%)", value=100.00, step=0.01, min_value=0.00)/100 # Exercise price adjustment factor (e.g., 1.2 means a 20% increase)
         ExerciseDate = st.date_input("Exercise factor effective date", datetime.date(2012, 9, 30)) # Time when the adjustment is triggered
@@ -168,14 +156,16 @@ with st.sidebar:
         ExerciseFactor = None
         ExerciseDate = None
         EffectiveDate = None
-    #st.info("(assuming the holders will exercise at x% of exercise price. Empty to disable)")
-    
+        
 if factor=="Yes":
-    dd1 = "S, K, T, r, q, sigma, N(years), OptionType(call/put), OptionName(American/European), Factor, ExerciseFactor, EffectiveDate".split(", ")
-    dd2 = [S, K, T, r, q, sigma, N, option_type, option_name, factor, ExerciseFactor, EffectiveDate]
+    dd1 = ["Option type(call/put)", "The name of the option", "Valuation date", "Maturity date", "No. of steps", "Risk free rate (%)",
+           "Volatility (%)", "Initial exercise price per share", "Spot price per share", "Dividend yield (%)", "Consider exercise factor(Yes/No)",
+           "Exercise factor (%)", "Exercise factor effective date"]
+    dd2 = [option_type, option_name, valuation_date, maturity_date, N, r, sigma, K, S, q, factor, ExerciseFactor, EffectiveDate]
 else:
-    dd1 = "S, K, T, r, q, sigma, N(years), OptionType(call/put), OptionName(American/European), Factor".split(", ")
-    dd2 = [S, K, T, r, q, sigma, N, option_type, option_name, factor]
+    dd1 = ["Option type(call/put)", "The name of the option", "Valuation date", "Maturity date", "No. of steps", "Risk free rate (%)",
+           "Volatility (%)", "Initial exercise price per share", "Spot price per share", "Dividend yield (%)", "Consider exercise factor(Yes/No)"]
+    dd2 = [option_type, option_name, valuation_date, maturity_date, N, r, sigma, K, S, q, factor]
 
 with st.expander("**Input Values**", True):
     st.write(pd.DataFrame({i:[j] for i, j in zip(dd1, dd2)}), hide_index=True, use_container_width=True)
@@ -192,8 +182,9 @@ with st.expander("**Input Values**", True):
 if button:
     # Calculate option price
     option_tree, price = binomial_tree(S, K, T, r, q, sigma, N, option_type, option_name, factor, ExerciseFactor, EffectiveDate)
-    st.success(f"**{option_name}-style {option_type} option price: {price:.7f}**")
-    with st.expander("**Binomial Tree**", True):
+    with st.expander("**Results & Analysis**", True):
+        st.success(f"**{option_name}-style {option_type} option price: {price:.7f}**")
+        
         fig = visualize_binomial_tree(S, K, T, r, sigma, n, steps_to_show=steps)
         st.pyplot(fig, use_container_width=True)
 else:

@@ -428,7 +428,7 @@ if calculate_button and (st.session_state.results is not None):
                 use_container_width=True
             )
 
-            total_sum = df_res['Total Value'].sum()
+            total_sum = df_res['Total Value'].apply(lambda x: round(x, 0)).sum()
             st.success("**Grand Total Value (All Lots): "+f"${total_sum:,.2f}**")
 
             # bar chart for comparing values
